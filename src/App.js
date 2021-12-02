@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+
+import "./App.css";
+import "antd/dist/antd.css";
+import Foods from "./foods.json";
+import { useState } from "react";
+import FoodBox from "./components/Foodbox/FoodBox";
+import AddFoodForm from "./components/AddFoodForm/AddFoodForm";
 
 function App() {
+  const [foods, setFood] = useState(Foods)
+  const [showForm, setShowForm] = useState(true)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AddFoodForm
+        foodsFromApp={foods}
+        setFoodsFromApp={setFood}
+      />
+       <button onClick={() => setShowForm(!showForm)}>{showForm ? 'Hide Form' : 'Add new Food'}</button>
+      {foods.map((food,index) => {
+        return (
+          <div>
+            <FoodBox
+              food={food}
+              foodsFromApp={foods}
+              setFoodsFromApp={setFood}
+              key={index + Date.now()}
+            />
+          </div>
+        )
+      })}
     </div>
-  );
-}
 
+  )
+}
 export default App;
+
